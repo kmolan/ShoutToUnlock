@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ShoutToUnlock</title>
+  <style>
+    :root {
+      --background: #f6f5f2;
+      --surface: #ffffff;
+      --text: #1d1d1f;
+      --muted: #6b6b70;
+      --track: #e4e2dc;
+      --level: #3a7bd5;
+      --loud: #e0662f;
+      --open: #2f9e5b;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background: #151517;
+        --surface: #1f1f23;
+        --text: #ececef;
+        --muted: #9a9aa2;
+        --track: #33333a;
+        --level: #5b9bf0;
+        --loud: #f07c45;
+        --open: #43c178;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      background: var(--background);
+      color: var(--text);
+      font: 16px/1.5 system-ui, sans-serif;
+    }
+    main {
+      width: 100%;
+      max-width: 420px;
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-align: center;
+    }
+    #padlock { font-size: 72px; line-height: 1; transition: transform 0.2s; }
+    main.open #padlock { transform: scale(1.15); }
+    h1 { margin: 12px 0 4px; font-size: 22px; }
+    .tagline { margin: 0 0 20px; color: var(--muted); font-size: 14px; }
+    label { display: flex; justify-content: space-between; gap: 12px; margin: 10px 0; color: var(--muted); font-size: 14px; }
+    label input { width: 60%; }
+    .bar { position: relative; height: 14px; border-radius: 7px; background: var(--track); overflow: hidden; margin: 6px 0 4px; }
+    .bar > div { height: 100%; width: 0; background: var(--level); }
+    #level-bar.loud { background: var(--loud); }
+    #progress-bar { background: var(--open); }
+    #threshold-mark { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--text); }
+    .caption { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--text);
+      color: var(--surface);
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:disabled { opacity: 0.5; cursor: default; }
+    #status { min-height: 1.5em; margin: 12px 0 0; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <div id="padlock">🔒</div>
+    <h1>ShoutToUnlock</h1>
+    <p class="tagline">no password. no face id. just ur lungs</p>
+
+    <label>how loud tho <input id="minimum-level" type="range" min="-60" max="0" step="1" value="-15"></label>
+    <label>how long tho <input id="minimum-seconds" type="range" min="0.5" max="10" step="0.5" value="2"></label>
+    <div class="caption"><span id="minimum-level-text"></span><span id="minimum-seconds-text"></span></div>
+
+    <div class="bar"><div id="level-bar"></div><span id="threshold-mark"></span></div>
+    <div class="caption"><span>ur volume rn</span><span id="level-text">–∞ dBFS</span></div>
+
+    <div class="bar"><div id="progress-bar"></div></div>
+    <div class="caption"><span>loud-time jar</span><span id="progress-text">0.0 s</span></div>
+
+    <button id="start">lemme in</button>
+    <p id="status"></p>
+  </main>
+  <script type="module" src="main.js"></script>
+</body>
+</html>

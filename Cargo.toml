@@ -1,0 +1,30 @@
+[package]
+name = "shout_to_unlock"
+version = "0.1.0"
+edition = "2024"
+authors = ["Anmol Kathail"]
+description = "a lock that opens when u scream at it. loud enough. long enough. xoxo"
+license = "MIT"
+repository = "https://github.com/kmolan/ShoutToUnlock"
+keywords = ["audio", "microphone", "volume", "lock"]
+categories = ["multimedia::audio"]
+include = ["/src/", "/mobile/uniffi-bindgen.rs", "/README.md", "/LICENSE"]
+
+[lib]
+crate-type = ["rlib", "cdylib", "staticlib"]
+
+[[bin]]
+name = "uniffi-bindgen"
+path = "mobile/uniffi-bindgen.rs"
+required-features = ["uniffi-bindgen"]
+
+[dependencies]
+pyo3 = { version = "0.30.1", features = ["abi3-py39"], optional = true }
+uniffi = { version = "0.32.2", optional = true }
+wasm-bindgen = { version = "0.2.129", optional = true }
+
+[features]
+python = ["dep:pyo3"]
+wasm = ["dep:wasm-bindgen"]
+mobile = ["dep:uniffi"]
+uniffi-bindgen = ["mobile", "uniffi/cli"]

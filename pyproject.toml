@@ -1,0 +1,18 @@
+[build-system]
+requires = ["maturin>=1.7,<2"]
+build-backend = "maturin"
+
+[project]
+name = "shout_to_unlock"
+dynamic = ["version"]
+description = "a lock that opens when u scream at it. loud enough. long enough. xoxo"
+license = "MIT"
+authors = [{ name = "Anmol Kathail" }]
+readme = "README.md"
+requires-python = ">=3.9"
+
+[project.urls]
+Repository = "https://github.com/kmolan/ShoutToUnlock"
+
+[tool.maturin]
+features = ["python", "pyo3/extension-module"]
