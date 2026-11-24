@@ -37,7 +37,7 @@ The author is Anmol Kathail. The name is in `LICENSE`, `Cargo.toml`, and `pyproj
 | `tests/test_python.py` | Python tests against the installed module. |
 | `web/` | The browser demo. `web/pkg` is the wasm-pack output and is gitignored. |
 | `mobile/` | `android.sh`, `apple.sh`, and the `uniffi-bindgen` binary source. |
-| `.github/workflows/ci.yml` | Tests on each push and PR. A push to `main` deploys `web/` to GitHub Pages. A `v*` tag builds and publishes everything. |
+| `.github/workflows/ci.yml` | Tests on each push and PR. A push to `main` deploys `web/` to GitHub Pages. A manual run builds the release and publishes nothing. A `v*` tag builds and publishes everything. |
 
 ## Core invariants
 
