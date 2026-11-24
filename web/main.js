@@ -1,6 +1,7 @@
 import init, { ShoutLock, levelDbfs } from "./pkg/shout_to_unlock.js";
 
 const LEVEL_FLOOR_DBFS = -60;
+const DEMO_URL = "https://kmolan.github.io/ShoutToUnlock/";
 
 const element = (id) => document.getElementById(id);
 const minimumLevel = element("minimum-level");
@@ -45,6 +46,8 @@ async function listen() {
   setListening(true);
   setOpen(false);
   element("status").textContent = "SCREAM.";
+  element("share").hidden = true;
+  element("copy").textContent = "copy it. go flex";
 
   // automatic gain control makes a scream and a whisper sound the same. I do not want that. I want CHAOS.
   const stream = await navigator.mediaDevices.getUserMedia({
@@ -75,6 +78,10 @@ async function listen() {
     context.close();
     setOpen(true);
     element("status").textContent = `ur in. peak ${lock.peakLevelDbfs.toFixed(1)} dBFS. the neighbours have been notified.`;
+    element("share-text").textContent =
+      `I screamed at a lock until it opened. peak ${lock.peakLevelDbfs.toFixed(1)} dBFS, ` +
+      `${lock.loudSeconds.toFixed(1)} s of pure noise. ur turn: ${DEMO_URL}`;
+    element("share").hidden = false;
     lock.free();
     startButton.textContent = "again!!";
     setListening(false);
@@ -86,6 +93,12 @@ await init();
 minimumLevel.addEventListener("input", showLimits);
 minimumSeconds.addEventListener("input", showLimits);
 showLimits();
+element("copy").addEventListener("click", () =>
+  navigator.clipboard.writeText(element("share-text").textContent).then(
+    () => (element("copy").textContent = "copied. now go post it"),
+    () => (element("copy").textContent = "clipboard said no. select it urself"),
+  ),
+);
 startButton.addEventListener("click", () =>
   listen().catch((error) => {
     element("status").textContent = `the mic said no: ${error.message}`;

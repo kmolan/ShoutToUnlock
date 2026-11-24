@@ -97,6 +97,10 @@
     button:disabled { opacity: 0.4; cursor: default; }
     #status { min-height: 1.5em; margin: 14px 0 0; font-weight: 600; }
     main.open #status { color: var(--open); }
+    #share { margin-top: 16px; padding: 14px; border: 1px dashed var(--edge); border-radius: 14px; }
+    #share-text { margin: 0; font-size: 14px; }
+    #copy { margin-top: 10px; padding: 10px; background: transparent; border: 1px solid var(--edge); color: var(--text); font-size: 15px; font-weight: 600; text-transform: none; }
+    #copy:hover { box-shadow: none; border-color: var(--open); }
     footer { max-width: 440px; text-align: center; color: var(--muted); font-size: 13px; }
     footer p { margin: 4px 0; }
     footer a { color: var(--text); }
@@ -124,6 +128,10 @@
 
     <button id="start">lemme in</button>
     <p id="status"></p>
+    <div id="share" hidden>
+      <p id="share-text"></p>
+      <button id="copy" type="button">copy it. go flex</button>
+    </div>
   </main>
   <footer>
     <p>audio stays on ur device. this page sends nothing anywhere, pinky promise.</p>
