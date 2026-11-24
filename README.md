@@ -1,5 +1,10 @@
 # ShoutToUnlock 📢🔓
 
+[![crates.io](https://img.shields.io/crates/v/shout_to_unlock)](https://crates.io/crates/shout_to_unlock)
+[![PyPI](https://img.shields.io/pypi/v/shout_to_unlock)](https://pypi.org/project/shout_to_unlock/)
+[![npm](https://img.shields.io/npm/v/shout_to_unlock)](https://www.npmjs.com/package/shout_to_unlock)
+[![license](https://img.shields.io/crates/l/shout_to_unlock)](https://github.com/kmolan/ShoutToUnlock/blob/main/LICENSE)
+
 ### [>> scream at it live, right now, in ur browser <<](https://kmolan.github.io/ShoutToUnlock/)
 
 **lemme in. LEMME IIIN.**
