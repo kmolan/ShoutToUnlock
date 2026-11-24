@@ -17,14 +17,14 @@ the brand is ShoutToUnlock. the package is `shout_to_unlock` everywhere, bc pack
 
 | Language | Install |
 |---|---|
-| Rust | `shout_to_unlock = { path = "…" }` in `Cargo.toml` |
-| Python | `pip install .` |
-| JavaScript / browser | `wasm-pack build --target web --out-dir web/pkg --features wasm` |
-| C / C++ | `cargo build --release`, then use `include/` and `target/release` |
-| Kotlin (Android) | `./mobile/android.sh` |
-| Swift (iOS, macOS) | `./mobile/apple.sh` |
+| Rust | `cargo add shout_to_unlock` |
+| Python | `pip install shout_to_unlock` |
+| JavaScript / browser | `npm install shout_to_unlock` |
+| C / C++ | `shout_to_unlock-<platform>.tar.gz` from [the release](https://github.com/kmolan/ShoutToUnlock/releases/latest) |
+| Kotlin (Android) | `shout_to_unlock-android.tar.gz` from [the release](https://github.com/kmolan/ShoutToUnlock/releases/latest) |
+| Swift (iOS, macOS) | `shout_to_unlock-apple.zip` from [the release](https://github.com/kmolan/ShoutToUnlock/releases/latest) |
 
-every language gets its own little section below. scroll, bestie
+every language gets its own little section below, plus how to build it urself. scroll, bestie
 
 ## how it works (science)
 
@@ -92,11 +92,13 @@ linking the static lib? add whatever system libs `cargo rustc --release --lib --
 
 ## Python
 
-u need a rust toolchain. then this builds + installs it, ez:
+wheels for linux, macos, and windows. no rust toolchain needed, ez:
 
 ```sh
-pip install .
+pip install shout_to_unlock
 ```
+
+building from a clone? `pip install .` (that one needs rust).
 
 ```python
 from shout_to_unlock import ShoutLock
@@ -111,13 +113,23 @@ a negative or NaN duration raises `ValueError`. time only goes forward bestie.
 to scream into ur actual microphone (warn ur roommates first):
 
 ```sh
-pip install . sounddevice numpy
+pip install shout_to_unlock sounddevice numpy
 python3 examples/microphone.py
 ```
 
 ## JavaScript + the browser
 
-u need [`wasm-pack`](https://github.com/rustwasm/wasm-pack). this spits an ES module into `web/pkg`:
+with a bundler (vite, webpack, etc), grab it from npm. no `init()` needed, the bundler loads the wasm for u:
+
+```sh
+npm install shout_to_unlock
+```
+
+```js
+import { ShoutLock, levelDbfs } from "shout_to_unlock";
+```
+
+no bundler? plain `<script type="module">` like the demo? u need [`wasm-pack`](https://github.com/rustwasm/wasm-pack). this spits an ES module into `web/pkg`:
 
 ```sh
 wasm-pack build --target web --out-dir web/pkg --features wasm
