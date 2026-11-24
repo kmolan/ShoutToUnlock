@@ -3,29 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ShoutToUnlock</title>
+  <title>ShoutToUnlock: lemme in. LEMME IIIN.</title>
+  <meta name="description" content="a lock that opens when u scream at it. loud enough. long enough.">
+  <meta property="og:title" content="ShoutToUnlock">
+  <meta property="og:description" content="a lock that opens when u scream at it. loud enough. long enough.">
+  <meta property="og:url" content="https://kmolan.github.io/ShoutToUnlock/">
+  <meta name="theme-color" content="#0b0b0f">
   <style>
     :root {
-      --background: #f6f5f2;
-      --surface: #ffffff;
-      --text: #1d1d1f;
-      --muted: #6b6b70;
-      --track: #e4e2dc;
-      --level: #3a7bd5;
-      --loud: #e0662f;
-      --open: #2f9e5b;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --background: #151517;
-        --surface: #1f1f23;
-        --text: #ececef;
-        --muted: #9a9aa2;
-        --track: #33333a;
-        --level: #5b9bf0;
-        --loud: #f07c45;
-        --open: #43c178;
-      }
+      color-scheme: dark;
+      --background: #0b0b0f;
+      --surface: #15151b;
+      --edge: #26262f;
+      --text: #f4f4f6;
+      --muted: #8d8d99;
+      --track: #24242c;
+      --level: #6aa8ff;
+      --loud: #ff4d2e;
+      --open: #3ee07f;
+      --intensity: 0;
     }
     * { box-sizing: border-box; }
     body {
@@ -33,52 +29,88 @@
       min-height: 100vh;
       display: grid;
       place-items: center;
-      padding: 16px;
-      background: var(--background);
+      gap: 20px;
+      padding: 24px 16px;
+      background:
+        radial-gradient(circle at 50% 40%, rgb(255 77 46 / calc(var(--intensity) * 0.55)), transparent 60%),
+        var(--background);
       color: var(--text);
-      font: 16px/1.5 system-ui, sans-serif;
+      font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+      transition: background 0.1s;
+    }
+    body:has(main.open) {
+      background: radial-gradient(circle at 50% 40%, rgb(62 224 127 / 0.35), transparent 60%), var(--background);
     }
     main {
       width: 100%;
-      max-width: 420px;
+      max-width: 440px;
       background: var(--surface);
-      border-radius: 16px;
-      padding: 28px 24px;
+      border: 1px solid var(--edge);
+      border-radius: 24px;
+      padding: 32px 28px 24px;
       text-align: center;
+      box-shadow: 0 20px 60px rgb(0 0 0 / 0.5);
     }
-    #padlock { font-size: 72px; line-height: 1; transition: transform 0.2s; }
-    main.open #padlock { transform: scale(1.15); }
-    h1 { margin: 12px 0 4px; font-size: 22px; }
-    .tagline { margin: 0 0 20px; color: var(--muted); font-size: 14px; }
-    label { display: flex; justify-content: space-between; gap: 12px; margin: 10px 0; color: var(--muted); font-size: 14px; }
-    label input { width: 60%; }
-    .bar { position: relative; height: 14px; border-radius: 7px; background: var(--track); overflow: hidden; margin: 6px 0 4px; }
+    #padlock { font-size: 104px; line-height: 1; display: inline-block; }
+    main.loud #padlock { animation: shake 0.12s infinite; }
+    main.open #padlock { animation: pop 0.5s ease-out; filter: drop-shadow(0 0 24px var(--open)); }
+    @keyframes shake {
+      0%, 100% { transform: translate(0, 0) rotate(0); }
+      25% { transform: translate(-3px, 1px) rotate(-4deg); }
+      75% { transform: translate(3px, -1px) rotate(4deg); }
+    }
+    @keyframes pop {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.35) rotate(-8deg); }
+      100% { transform: scale(1.1); }
+    }
+    h1 { margin: 16px 0 0; font-size: 15px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+    .tagline { margin: 4px 0 6px; font-size: 40px; font-weight: 900; line-height: 1.05; letter-spacing: -0.03em; }
+    .tagline span { color: var(--loud); }
+    .subtitle { margin: 0 0 24px; color: var(--muted); }
+    label { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 10px 0; color: var(--muted); font-size: 14px; }
+    label input { width: 60%; accent-color: var(--loud); }
+    .bar { position: relative; height: 18px; border-radius: 9px; background: var(--track); overflow: hidden; margin: 14px 0 4px; }
     .bar > div { height: 100%; width: 0; background: var(--level); }
-    #level-bar.loud { background: var(--loud); }
+    #level-bar.loud { background: var(--loud); box-shadow: 0 0 16px var(--loud); }
     #progress-bar { background: var(--open); }
-    #threshold-mark { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--text); }
+    #threshold-mark { position: absolute; top: 0; bottom: 0; width: 3px; background: var(--text); }
     .caption { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
     button {
-      margin-top: 20px;
+      margin-top: 24px;
       width: 100%;
-      padding: 12px;
+      padding: 16px;
       border: 0;
-      border-radius: 10px;
-      background: var(--text);
-      color: var(--surface);
+      border-radius: 14px;
+      background: var(--loud);
+      color: #fff;
       font: inherit;
-      font-weight: 600;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
       cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.1s;
     }
-    button:disabled { opacity: 0.5; cursor: default; }
-    #status { min-height: 1.5em; margin: 12px 0 0; color: var(--muted); }
+    button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgb(255 77 46 / 0.4); }
+    button:active:not(:disabled) { transform: translateY(0); }
+    button:disabled { opacity: 0.4; cursor: default; }
+    #status { min-height: 1.5em; margin: 14px 0 0; font-weight: 600; }
+    main.open #status { color: var(--open); }
+    footer { max-width: 440px; text-align: center; color: var(--muted); font-size: 13px; }
+    footer p { margin: 4px 0; }
+    footer a { color: var(--text); }
+    @media (prefers-reduced-motion: reduce) {
+      main.loud #padlock, main.open #padlock { animation: none; }
+    }
   </style>
 </head>
 <body>
   <main>
     <div id="padlock">🔒</div>
     <h1>ShoutToUnlock</h1>
-    <p class="tagline">no password. no face id. just ur lungs</p>
+    <p class="tagline">lemme in.<br><span>LEMME IIIN.</span></p>
+    <p class="subtitle">no password. no face id. just ur lungs</p>
 
     <label>how loud tho <input id="minimum-level" type="range" min="-60" max="0" step="1" value="-15"></label>
     <label>how long tho <input id="minimum-seconds" type="range" min="0.5" max="10" step="0.5" value="2"></label>
@@ -93,6 +125,10 @@
     <button id="start">lemme in</button>
     <p id="status"></p>
   </main>
+  <footer>
+    <p>audio stays on ur device. this page sends nothing anywhere, pinky promise.</p>
+    <p>rust core, compiled to wasm. <a href="https://github.com/kmolan/ShoutToUnlock">source on github</a></p>
+  </footer>
   <script type="module" src="main.js"></script>
 </body>
 </html>

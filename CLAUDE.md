@@ -37,7 +37,7 @@ The author is Anmol Kathail. The name is in `LICENSE`, `Cargo.toml`, and `pyproj
 | `tests/test_python.py` | Python tests against the installed module. |
 | `web/` | The browser demo. `web/pkg` is the wasm-pack output and is gitignored. |
 | `mobile/` | `android.sh`, `apple.sh`, and the `uniffi-bindgen` binary source. |
-| `.github/workflows/ci.yml` | Tests on each push and PR. A `v*` tag builds and publishes everything. |
+| `.github/workflows/ci.yml` | Tests on each push and PR. A push to `main` deploys `web/` to GitHub Pages. A `v*` tag builds and publishes everything. |
 
 ## Core invariants
 
@@ -106,8 +106,8 @@ Not verified:
 
 Open items:
 
-- The repository is `https://github.com/kmolan/ShoutToUnlock`. It is private. GitHub Pages
-  needs a public repository on a free plan.
+- The repository is `https://github.com/kmolan/ShoutToUnlock`. It is public.
+- The live demo is `https://kmolan.github.io/ShoutToUnlock/`. The README links to it.
 - The release needs the repository secrets `CARGO_REGISTRY_TOKEN`, `PYPI_API_TOKEN`, and
   `NPM_TOKEN`.
 - `shout_to_unlock` was a free name on crates.io, PyPI, and npm on 2026-10-30.
@@ -125,13 +125,13 @@ will not install a package, but they will click a link.
 4. Fix the CI jobs that fail on the first run.
 5. The user pushes the `v0.1.0` tag.
 
-### 2. Demo changes (proposed, not approved)
+### 2. Demo changes
 
-- Add a GitHub Pages deploy job to `ci.yml`. It builds `web/` with `--target web`. Pages gives
-  HTTPS, and browsers need HTTPS for microphone access.
+Done: the Pages deploy job, the line "audio stays on ur device", and the README link.
+
+Proposed, not approved:
+
 - After the lock opens, show a share line with the peak level and a copy button.
-- Add the line "audio stays on ur device" to the page. This is true: the page sends no data.
-- Put the demo link in the first line of the README.
 
 ### 3. Launch (user steps)
 

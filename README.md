@@ -1,5 +1,7 @@
 # ShoutToUnlock 📢🔓
 
+### [>> scream at it live, right now, in ur browser <<](https://kmolan.github.io/ShoutToUnlock/)
+
 **lemme in. LEMME IIIN.**
 
 no password. no face id. no fingerprint. just ur LUNGS

@@ -19,8 +19,12 @@ function showLimits() {
 
 function show(lock) {
   const level = lock.lastLevelDbfs;
+  const loud = level >= lock.minimumLevelDbfs;
   element("level-bar").style.width = `${levelPercent(level)}%`;
-  element("level-bar").classList.toggle("loud", level >= lock.minimumLevelDbfs);
+  element("level-bar").classList.toggle("loud", loud);
+  card.classList.toggle("loud", loud);
+  // the background glow follows ur volume. scream harder, glow harder.
+  document.documentElement.style.setProperty("--intensity", levelPercent(level) / 100);
   element("level-text").textContent = Number.isFinite(level) ? `${level.toFixed(1)} dBFS` : "–∞ dBFS";
   element("progress-bar").style.width = `${lock.progress * 100}%`;
   element("progress-text").textContent = `${lock.loudSeconds.toFixed(1)} / ${lock.minimumSeconds.toFixed(1)} s`;
@@ -32,6 +36,8 @@ function setListening(listening) {
 
 function setOpen(open) {
   card.classList.toggle("open", open);
+  card.classList.remove("loud");
+  document.documentElement.style.setProperty("--intensity", 0);
   element("padlock").textContent = open ? "🔓" : "🔒";
 }
 
