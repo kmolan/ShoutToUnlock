@@ -6,8 +6,6 @@ no password. no face id. no fingerprint. just ur LUNGS
 
 scream at ur computer until it says `true`. breaks for air are allowed, I am not a monster. the total counts, not the streak. ur neighbours will hate it. ur cat will leave. the lock will open.
 
-it does exactly one thing and it does it LOUDLY. xoxo
-
 the brand is ShoutToUnlock. the package is `shout_to_unlock` everywhere, bc package names are allergic to capital letters.
 
 | Language | Install |
