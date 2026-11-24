@@ -8,20 +8,8 @@ The brand name is `ShoutToUnlock`, with the tagline "lemme in. LEMME IIIN." The 
 
 The author is Anmol Kathail. The name is in `LICENSE`, `Cargo.toml`, and `pyproject.toml`.
 
-## Rules for this project
-
-- **Project text is lulz style.** This applies to the README, the doc comments, the code comments,
-  the package descriptions, the error messages, the script output, and the web page text. Use
-  lowercase, "u/ur/bestie", and jokes. Formulas and invariants must stay correct.
-- **Never use "we", "us", or "our"** in project text. The narrator is "I".
-- **Emojis are minimal.** Only 📢🔓 in the README title and the 🔒/🔓 padlock on the web page are
-  permitted. Do not add more.
-- **Chat replies and this file use STE**, as the global `CLAUDE.md` tells.
-- **Git:** do not init, branch, or tag. Commit and push without further permission.
-- **Commit messages:** one short line, with a maximum of seven words. Do not add a body.
-- **Attribution:** never add attribution to Claude or to an AI in any text. This prohibition
-  includes a `Co-Authored-By` trailer and a "Generated with Claude Code" footer.
-- **Keep it simple.** Do not add features, knobs, or layers that the user did not ask for.
+- Repository: `https://github.com/kmolan/ShoutToUnlock` (public, branch `main`).
+- Live demo: `https://kmolan.github.io/ShoutToUnlock/`. The second line of the README links to it.
 
 ## Layout
 
@@ -37,7 +25,7 @@ The author is Anmol Kathail. The name is in `LICENSE`, `Cargo.toml`, and `pyproj
 | `tests/test_python.py` | Python tests against the installed module. |
 | `web/` | The browser demo. `web/pkg` is the wasm-pack output and is gitignored. |
 | `mobile/` | `android.sh`, `apple.sh`, and the `uniffi-bindgen` binary source. |
-| `.github/workflows/ci.yml` | Tests on each push and PR. A push to `main` deploys `web/` to GitHub Pages. A manual run builds the release and publishes nothing. A `v*` tag builds and publishes everything. |
+| `.github/workflows/ci.yml` | The CI. Refer to the CI section. |
 
 ## Core invariants
 
@@ -63,6 +51,24 @@ The author is Anmol Kathail. The name is in `LICENSE`, `Cargo.toml`, and `pyproj
   `web/pkg/README.md`.
 - **Version:** `Cargo.toml` is the only source. `pyproject.toml` uses `dynamic = ["version"]`.
 
+## CI
+
+| Trigger | Jobs |
+|---|---|
+| Each push and PR | `test` |
+| Push to `main` | `test`, then `pages`. It deploys `web/` to GitHub Pages. |
+| Manual run | `test`, then the six build jobs. It publishes nothing. |
+| `v*` tag | `test`, the six build jobs, then the GitHub release, crates.io, PyPI, and npm. |
+
+- The tag must match the version in `Cargo.toml`, or `test` fails.
+- The four publish jobs need all six build jobs. They run in parallel, so one can fail after
+  another published.
+- The repository has the secrets `CARGO_REGISTRY_TOKEN`, `PYPI_API_TOKEN`, and `NPM_TOKEN`.
+- To set a secret, use `gh secret set <name>` in a normal terminal. A `!` command gives no
+  prompt, so it sets an empty value.
+- `upload-artifact` and `download-artifact` are at `v4`, which uses Node.js 20. The newer major
+  versions change behavior, so test them with a manual run before a tag.
+
 ## Commands
 
 ```sh
@@ -75,6 +81,7 @@ wasm-pack build --target web --out-dir web/pkg --features wasm
 python3 -m http.server --directory web 8000
 ./mobile/android.sh   # needs cargo-ndk and ANDROID_NDK_HOME
 ./mobile/apple.sh     # needs macOS and Xcode
+gh workflow run ci.yml --ref main   # build-only release run
 ```
 
 To build the C++ example:
@@ -85,7 +92,7 @@ g++ -std=c++17 -Wall -Wextra -Werror -Iinclude examples/cpp_example.cpp -Ltarget
 LD_LIBRARY_PATH=target/release ./examples/cpp_example
 ```
 
-## Current state (2026-10-30, version 0.1.0, not released)
+## Current state (2026-11-23, version 0.1.0, not released)
 
 Verified:
 
@@ -94,42 +101,29 @@ Verified:
 - The Python tests pass. NumPy arrays work as input.
 - The JS API works on Node. The user confirmed that the browser demo works.
 - The Kotlin bindings run on the JVM. The Swift bindings run on Swift for Linux.
-- `android.sh` builds three ABIs.
 - `cargo publish --dry-run` packages 11 files. The sdist installs as version 0.1.0.
+- On GitHub, `test`, `pages`, and all six build jobs pass. This includes macOS, Windows,
+  `android.sh`, and `apple.sh`.
+- `shout_to_unlock` was a free name on crates.io, PyPI, and npm on 2026-11-23.
 
 Not verified:
 
-- `mobile/apple.sh`. It needs a Mac.
+- The four publish jobs and the three secret values.
 - The Android and iOS microphone code in the README.
 - `examples/microphone.py` with a real microphone.
-- `ci.yml` on GitHub. Actionlint did not run. The macOS and Windows jobs have the most risk.
-
-Open items:
-
-- The repository is `https://github.com/kmolan/ShoutToUnlock`. It is public.
-- The live demo is `https://kmolan.github.io/ShoutToUnlock/`. The README links to it.
-- The release needs the repository secrets `CARGO_REGISTRY_TOKEN`, `PYPI_API_TOKEN`, and
-  `NPM_TOKEN`.
-- `shout_to_unlock` was a free name on crates.io, PyPI, and npm on 2026-10-30.
 
 ## Intended future state
 
 The goal is maximum visibility for a joke. The live browser demo is the main hook. Most people
 will not install a package, but they will click a link.
 
-### 1. First release (user steps, then agent steps)
+### 1. First release
 
-1. The user gives a GitHub URL.
-2. Add `repository` to `Cargo.toml` and `pyproject.toml`.
-3. The user creates the repository, adds the three secrets, and pushes.
-4. Fix the CI jobs that fail on the first run.
-5. The user pushes the `v0.1.0` tag.
+1. Get the approval of the user, then push the `v0.1.0` tag.
+2. Make sure that the package is on crates.io, PyPI, and npm, and that the GitHub release exists.
+3. In the README install table, replace the local build commands with the registry installs.
 
-### 2. Demo changes
-
-Done: the Pages deploy job, the line "audio stays on ur device", and the README link.
-
-Proposed, not approved:
+### 2. Demo changes (proposed, not approved)
 
 - After the lock opens, show a share line with the peak level and a copy button.
 
@@ -137,7 +131,7 @@ Proposed, not approved:
 
 - Record a 10 to 15 second video of a person who yells until the padlock opens. Put a GIF of it at
   the top of the README.
-- Add the GitHub description, demo URL, topics, and social preview image.
+- Add the GitHub topics and the social preview image. The description and the demo URL are set.
 - Day 1: post a Show HN and an r/rust post. Day 2: post the video on social sites.
 - Suggest the crate for "Crate of the Week" in This Week in Rust.
 
