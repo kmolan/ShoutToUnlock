@@ -97,7 +97,7 @@ g++ -std=c++17 -Wall -Wextra -Werror -Iinclude examples/cpp_example.cpp -Ltarget
 LD_LIBRARY_PATH=target/release ./examples/cpp_example
 ```
 
-## Current state (2026-11-23, version 0.1.0, not released)
+## Current state (2026-11-23, version 0.1.0, released)
 
 Verified:
 
@@ -109,40 +109,15 @@ Verified:
 - `cargo publish --dry-run` packages 11 files. The sdist installs as version 0.1.0.
 - On GitHub, `test`, `pages`, and all six build jobs pass. This includes macOS, Windows,
   `android.sh`, and `apple.sh`.
-- `shout_to_unlock` was a free name on crates.io, PyPI, and npm on 2026-11-23.
+- Version 0.1.0 is on crates.io, PyPI, and npm. The GitHub release `v0.1.0` has the C,
+  Android, and Apple archives.
+- `pip install shout_to_unlock` installs the manylinux wheel. No Rust toolchain is necessary.
+- The npm package imports in Node 24 with `--experimental-wasm-modules`. It needs no `init()`.
+- The first npm publish failed: the token had no 2FA bypass. A rerun of only the `npm` job
+  published it. npm shows a placeholder version `0.0.0-stage` while it processes a publish.
 
 Not verified:
 
-- The four publish jobs and the three secret values.
+- `npm install shout_to_unlock` with a bundler.
 - The Android and iOS microphone code in the README.
 - `examples/microphone.py` with a real microphone.
-
-## Intended future state
-
-The goal is maximum visibility for a joke. The live browser demo is the main hook. Most people
-will not install a package, but they will click a link.
-
-### 1. First release
-
-1. Get the approval of the user, then push the `v0.1.0` tag.
-2. Make sure that the package is on crates.io, PyPI, and npm, and that the GitHub release exists.
-3. Ask the user for permission to replace the local build commands in the README install table
-   with the registry installs.
-
-### 2. Demo changes (proposed, not approved)
-
-- After the lock opens, show a share line with the peak level and a copy button.
-
-### 3. Launch (user steps)
-
-- Record a 10 to 15 second video of a person who yells until the padlock opens. Put a GIF of it at
-  the top of the README.
-- Add the GitHub topics and the social preview image. The description and the demo URL are set.
-- Day 1: post a Show HN and an r/rust post. Day 2: post the video on social sites.
-- Suggest the crate for "Crate of the Week" in This Week in Rust.
-
-### Out of scope unless the user asks
-
-- A leaderboard or any server. The page sends no data.
-- Frequency analysis, voice detection, or other ways to measure a shout.
-- More language bindings.
