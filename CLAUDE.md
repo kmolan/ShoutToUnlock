@@ -11,6 +11,11 @@ The author is Anmol Kathail. The name is in `LICENSE`, `Cargo.toml`, and `pyproj
 - Repository: `https://github.com/kmolan/ShoutToUnlock` (public, branch `main`).
 - Live demo: `https://kmolan.github.io/ShoutToUnlock/`. The second line of the README links to it.
 
+## Rules
+
+- Do not change user-facing docs without the permission of the user. These include `README.md`,
+  the web page text, the package descriptions, and all other docs.
+
 ## Layout
 
 | Path | Contents |
@@ -121,7 +126,8 @@ will not install a package, but they will click a link.
 
 1. Get the approval of the user, then push the `v0.1.0` tag.
 2. Make sure that the package is on crates.io, PyPI, and npm, and that the GitHub release exists.
-3. In the README install table, replace the local build commands with the registry installs.
+3. Ask the user for permission to replace the local build commands in the README install table
+   with the registry installs.
 
 ### 2. Demo changes (proposed, not approved)
 
